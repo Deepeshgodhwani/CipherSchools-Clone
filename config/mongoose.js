@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-let URL ="mongodb://deepeshgodwani:deepesh@ac-bsuaopc-shard-00-00.dqej11g.mongodb.net:27017,ac-bsuaopc-shard-00-01.dqej11g.mongodb.net:27017,ac-bsuaopc-shard-00-02.dqej11g.mongodb.net:27017/?ssl=true&replicaSet=atlas-v5zo6j-shard-0&authSource=admin&retryWrites=true&w=majority";
+let URL =process.env.MONGO_URL;
 const connectDb = async () => {
   try {
     const conn = await mongoose.connect(URL, {
