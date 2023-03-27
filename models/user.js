@@ -16,14 +16,15 @@ const userSchema = mongoose.Schema({
   },
   contactNo: {
     type: Number,
-    unique: true,
   },
   password: {
-    type: Number,
+    type: String,
     require: true,
   },
   avtar: {
     type: String,
+    default:
+      "https://res.cloudinary.com/dynjwlpl3/image/upload/v1679893125/CipherSchools-clone/user_njz54h.png",
   },
   interests: [
     {

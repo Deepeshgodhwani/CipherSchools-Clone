@@ -1,13 +1,14 @@
 const userModel = require("../models/user");
 const bcrypt = require("bcryptjs");
 const followersModel = require("../models/followers");
+const JWT=require('jsonwebtoken');
+const JWTSecret = process.env.JWT_SECRET;
 
 
 // creating user signing up  //
 module.exports.createUser = async (req, res) => {
   try {
     // checking whether the user already exists
-
     let userr = await userModel.findOne({ email: req.body.email });
     if (userr) {
       return res
@@ -20,16 +21,18 @@ module.exports.createUser = async (req, res) => {
     const salt = bcrypt.genSaltSync(10);
     const encryptedpass = await bcrypt.hash(req.body.password, salt);
 
-    let user = await userModel.create({ ...req.body, password: encryptedpass });
+    let user = await userModel.create({ ...req.body, password: encryptedpass })
+    user=user.toObject();
+    delete user.password;
 
     const data = {
       userId: user._id,
     };
 
-    const authToken = jwt.sign(data, jwtSecret);
+    const authToken = JWT.sign(data, JWTSecret);
     return res
       .status(200)
-      .send({ status: "success", data: authToken, message: "User is created" });
+      .send({ status: "success", data:{user,authToken}, message: "User is created" });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Internal Server Error");
@@ -39,6 +42,7 @@ module.exports.createUser = async (req, res) => {
 
 // logging up user //
 module.exports.userLogging = async (req, res) => {
+
   const { email, password } = req.body;
   try {
     // finding user exist or not //
@@ -60,12 +64,15 @@ module.exports.userLogging = async (req, res) => {
         });
       }
 
+      user=user.toObject();
+      delete user.password;
+
       const data = {
         userId: user._id,
       };
 
-      //sending jwt token and user details if password ans email password is verified //
-      const authToken = jwt.sign(data, jwtSecret);
+      //sending JWT token and user details if password ans email password is verified //
+      const authToken = JWT.sign(data, JWTSecret);
       return res.status(200).send({
         status: "success",
         data: { authToken, user },
@@ -94,6 +101,7 @@ module.exports.getUser = async (req, res) => {
       status: "failure",
       message: "Please enter valid login credentials",
     });
+
   } catch (error) {
     console.error(error.message);
     res.status(500).send("Internal Server Error");
@@ -104,6 +112,17 @@ module.exports.getUser = async (req, res) => {
 
 module.exports.updateUserProfile = async (req, res) => {
   try {
+     const {contactNo,email}=req.body;
+     let userr=await userModel.findOne({contactNo});
+     
+     if(userr && userr.email!==email ){
+          
+        return res.status(200).send({
+           status: "failure",
+           message: "Contact number is already registered",
+        })
+     }
+
     let user = await userModel.findByIdAndUpdate(req.user, req.body);
     return res
       .status(200)
