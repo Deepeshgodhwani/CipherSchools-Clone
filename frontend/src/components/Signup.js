@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import { useToast } from "@chakra-ui/react";
 import logoImg from "../images/cipherlogo.png";
 import googleImg from "../images/google.png";

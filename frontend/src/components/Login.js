@@ -1,15 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useToast } from "@chakra-ui/react";
 import {
   Modal,
   ModalOverlay,
   ModalContent,
-  Button,
   useDisclosure,
 } from "@chakra-ui/react";
 import Signup from "./Signup";
 import logoImg from "../images/cipherlogo.png";
 import googleImg from "../images/google.png";
+import userContext from "../context/userContext";
 
 function Login() {
   const toast = useToast();
@@ -19,6 +19,8 @@ function Login() {
     email: "",
     password: "",
   });
+  const context = useContext(userContext);
+  const { setuserData } = context;
 
   const logUser = async (e) => {
     try {
@@ -40,6 +42,7 @@ function Login() {
       if (result.status === "success") {
         localStorage.setItem("token", result.data.authToken);
         localStorage.setItem("user", JSON.stringify(result.data.user));
+        setuserData(result.data.user);
         setuserCredentials({ email: "", password: "" });
         toast({
           description: "Signin successfully",
@@ -79,8 +82,16 @@ function Login() {
 
   return (
     <div>
-      <Button onClick={onOpen}>Signin</Button>
-
+      <div
+        onClick={onOpen}
+        className="w-7 ml-1 cursor-pointer h-7 bg-[rgb(72,61,53)] flex justify-center items-center rounded-full"
+      >
+        <img
+          alt=""
+          className="w-3 "
+          src="https://res.cloudinary.com/dynjwlpl3/image/upload/v1679893125/CipherSchools-clone/user_njz54h.png"
+        ></img>
+      </div>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent backgroundColor={"transparent"} textColor="white">
