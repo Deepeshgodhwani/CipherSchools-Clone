@@ -11,7 +11,7 @@ function Navbar() {
   const { userData } = context;
 
   return (
-    <div className="flex w-full justify-between border-[rgb(60,66,74) ] text-[rgb(238,238,238)] px-4 py-4 items-center bg-[rgb(38,44,54)] border-b-[1px]">
+    <div className="flex w-full justify-between border-[rgb(60,66,74)] text-[rgb(238,238,238)] px-4 py-4 items-center bg-[rgb(38,44,54)] border-b-[1px]">
       <div className="flex space-x-8 justify-between">
         <img alt="" className="w-8" src={menuIcon}></img>
         <div className="flex items-center space-x-2">
