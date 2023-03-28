@@ -1,7 +1,8 @@
-import React, {  useState } from "react";
+import React, {  useState , useContext} from "react";
 import { useToast } from "@chakra-ui/react";
 import logoImg from "../images/cipherlogo.png";
 import googleImg from "../images/google.png";
+import userContext from "../context/userContext";
 
 function Signup(props) {
   const toast = useToast();
@@ -13,6 +14,9 @@ function Signup(props) {
   });
   const [contactNo, setcontactNo] = useState("");
   const { onClose, isSignin, toggleSigninView } = props;
+  const context = useContext(userContext);
+  const { setuserData } = context;
+  
 
   const createUser = async (e) => {
     e.preventDefault();
@@ -30,7 +34,7 @@ function Signup(props) {
 
     try {
       const response = await fetch(
-        `http://localhost:7000/api/user/createUser`,
+        `http://localhost:7000/api/userAccount/createUser`,
         {
           method: "POST",
           mode: "cors",
@@ -45,6 +49,7 @@ function Signup(props) {
       if (result.status === "success") {
         localStorage.setItem("token", result.data.authToken);
         localStorage.setItem("user", JSON.stringify(result.data.user));
+        setuserData(result.data.user)
         toast({
           description: "Signup successfully",
           status: "success",
@@ -91,23 +96,23 @@ function Signup(props) {
   return (
     !isSignin && (
       <div
-        className="w-[37rem] flex flex-col rounded-3xl shadow-lg shadow-white p-4
+        className="w-[37rem]  flex flex-col text-[rgb(238,238,238)] rounded-3xl p-4
      h-[36rem] -top-10 -left-16 absolute bg-[rgb(38,44,54)]"
       >
-        <div className="flex  justify-between">
+        <div className="flex font-semibold text-3xl   justify-between">
           <p>Signup</p>
-          <i className="fa-solid fa-xmark"></i>
+          <i onClick={onClose} className="fa-solid fa-xmark"></i>
         </div>
-        <div className="flex flex-col overflow-y-scroll space-y-3 w-full items-center px-4">
+        <div className="flex flex-col styleScroll overflow-y-scroll space-y-3 w-full items-center px-4">
           <div className="flex items-center space-x-2">
             <img alt="" className="w-10 " src={logoImg}></img>
-            <div>CipherSchools</div>
+            <div className="font-bold text-2xl">CipherSchools</div>
           </div>
-          <div className="text-center">
-            <p>Create New Account</p>
-            <p>Please provide your valid informations to signup</p>
+          <div className="text-center space-y-0">
+            <p className="font-semibold text-[rgb(218,219,221)] text-lg">Create New Account</p>
+            <p className="text-[rgb(174,176,180)]">Please provide your valid informations to signup</p>
           </div>
-          <div className="flex flex-col space-y-4">
+          <div className="flex flex-col pt-6 space-y-4">
             <input
               autoComplete="off"
               name="firstName"
@@ -171,10 +176,10 @@ function Signup(props) {
             </div>
             <button
               onClick={createUser}
-              className="bg-[rgb(243,145,46)] py-2 rounded-lg"
+              className="bg-[rgb(243,145,46)] font-semibold py-2 rounded-lg"
             >
               {" "}
-              signin
+              signup
             </button>
           </div>
           <div className="flex">
@@ -194,10 +199,10 @@ function Signup(props) {
             <p>OR</p>
             <div className="border-t-2 w-40 border-[rgb(77,82,90)] h-0"></div>
           </div>
-          <div className="flex">
-            <img className="w-7" src={googleImg} alt="" />
-            <p>Sign in with Google</p>
-          </div>
+          <div className="flex bg-[rgb(21,24,30)] rounded-xl space-x-4 font-semibold py-2 cursor-pointer px-4">
+                  <img className="w-7" src={googleImg} alt="" />
+                  <p>Sign in with Google</p>
+           </div>
         </div>
       </div>
     )

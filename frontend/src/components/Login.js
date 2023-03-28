@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useToast } from "@chakra-ui/react";
 import {
   Modal,
@@ -20,7 +20,19 @@ function Login() {
     password: "",
   });
   const context = useContext(userContext);
-  const { setuserData } = context;
+  const { setuserData,userData } = context;
+
+ 
+  
+ 
+  useEffect(() => {
+      
+     if(!userData?.email){
+           onOpen()
+      }
+     // eslint-disable-next-line
+  }, [])
+  
 
   const logUser = async (e) => {
     try {
@@ -29,7 +41,7 @@ function Login() {
         return;
       }
 
-      const response = await fetch(`http://localhost:7000/api/user/logUser`, {
+      const response = await fetch(`http://localhost:7000/api/userAccount/logUser`, {
         method: "POST",
         mode: "cors",
         headers: {
@@ -80,6 +92,9 @@ function Login() {
     setisSignin(value);
   };
 
+
+
+
   return (
     <div>
       <div
@@ -89,28 +104,28 @@ function Login() {
         <img
           alt=""
           className="w-3 "
-          src="https://res.cloudinary.com/dynjwlpl3/image/upload/v1679893125/CipherSchools-clone/user_njz54h.png"
+          src={process.env.REACT_APP_DEFAULT_USERAVTAR}
         ></img>
       </div>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} >
         <ModalOverlay />
         <ModalContent backgroundColor={"transparent"} textColor="white">
           {isSignin && (
-            <div className="w-[37rem] flex flex-col rounded-3xl shadow-lg shadow-white p-4 h-[36rem] -top-10 -left-16 absolute bg-[rgb(38,44,54)]">
-              <div className="flex  justify-between">
-                <p>Signin</p>
-                <i className="fa-solid fa-xmark"></i>
+            <div className="w-[37rem] flex text-[rgb(238,238,238)] flex-col rounded-3xl p-4  px-6 h-[36rem] -top-10 -left-16 absolute bg-[rgb(38,44,54)]">
+              <div className="flex font-semibold text-3xl justify-between">
+                <p className="">Signin</p>
+                <i  className="fa-solid fa-xmark"></i>
               </div>
               <div className="flex flex-col space-y-3 w-full items-center px-4">
                 <div className="flex items-center space-x-2">
                   <img alt="" className="w-10 " src={logoImg}></img>
-                  <div>CipherSchools</div>
+                  <div className="font-bold text-2xl">CipherSchools</div>
                 </div>
-                <div className="text-center">
-                  <p>Hey, Welcome!</p>
-                  <p>Please provide your email and password to signin</p>
+                <div className="text-center space-y-2">
+                  <p className="font-semibold text-[rgb(218,219,221)] text-lg">Hey, Welcome!</p>
+                  <p className="text-[rgb(174,176,180)]">Please provide your email and password to signin</p>
                 </div>
-                <div className="flex flex-col space-y-4">
+                <div className="flex flex-col space-y-4 pt-6">
                   <input
                     name="email"
                     className="bg-[rgb(21,24,30)] 
@@ -138,7 +153,7 @@ function Login() {
                   </div>
                   <button
                     onClick={logUser}
-                    className="bg-[rgb(243,145,46)] py-2 rounded-lg"
+                    className="bg-[rgb(243,145,46)] font-semibold py-2 rounded-lg"
                   >
                     {" "}
                     signin
@@ -161,7 +176,7 @@ function Login() {
                   <p>OR</p>
                   <div className="border-t-2 w-40 border-[rgb(77,82,90)] h-0"></div>
                 </div>
-                <div className="flex">
+                <div className="flex bg-[rgb(21,24,30)] rounded-xl space-x-4 font-semibold py-2 cursor-pointer px-4">
                   <img className="w-7" src={googleImg} alt="" />
                   <p>Sign in with Google</p>
                 </div>

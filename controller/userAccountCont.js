@@ -1,6 +1,5 @@
-const userModel = require("../models/user");
+const userModel = require("../models/userAuth");
 const bcrypt = require("bcryptjs");
-const followersModel = require("../models/followers");
 const JWT=require('jsonwebtoken');
 const JWTSecret = process.env.JWT_SECRET;
 
@@ -9,7 +8,8 @@ const JWTSecret = process.env.JWT_SECRET;
 module.exports.createUser = async (req, res) => {
   try {
     // checking whether the user already exists
-    let userr = await userModel.findOne({ email: req.body.email });
+    let userr = await userModel.findOne({ email: req.body.email })
+    .populate("userInfo");
     if (userr) {
       return res
         .status(200)
@@ -46,7 +46,8 @@ module.exports.userLogging = async (req, res) => {
   const { email, password } = req.body;
   try {
     // finding user exist or not //
-    let user = await userModel.findOne({ email });
+    let user = await userModel.findOne({ email })
+    .populate("userInfo");;
 
     if (!user) {
       // sending error if user does not exist//
@@ -90,7 +91,9 @@ module.exports.userLogging = async (req, res) => {
 module.exports.getUser = async (req, res) => {
   try {
     let userId = req.user;
-    let user = await userModel.findById(userId).select("-password");
+    let user = await userModel.findById(userId)
+    .populate("userInfo")
+    .select("-password");
     if (user) {
       return res
         .status(200)
@@ -108,71 +111,3 @@ module.exports.getUser = async (req, res) => {
   }
 };
 
-//upating user details
-
-module.exports.updateUserProfile = async (req, res) => {
-  try {
-     const {contactNo,email}=req.body;
-     let userr=await userModel.findOne({contactNo});
-     
-     if(userr && userr.email!==email ){
-          
-        return res.status(200).send({
-           status: "failure",
-           message: "Contact number is already registered",
-        })
-     }
-
-    let user = await userModel.findByIdAndUpdate(req.user, req.body);
-    return res
-      .status(200)
-      .send({ status: "success", data: user, message: "User is updated" });
-  } catch (error) {
-    console.error(error.message);
-    res.status(500).send("Internal Server Error");
-  }
-};
-
-//Reset user password
-
-module.exports.changePassword = async (req, res) => {
-  try {
-    const { password } = req.body;
-    let user = await userModel.findById(req.user);
-    //checking new  password  and old password is same or not
-    let checkPassword = await bcrypt.compare(password, user.password);
-    if (checkPassword) {
-      return res.send({
-        status: "failure",
-        message: "New password and old password should not be same",
-      });
-    }
-
-    const salt = bcrypt.genSaltSync(10);
-    const encryptedpass = await bcrypt.hash(password, salt);
-    user.password = encryptedpass;
-    await user.save();
-    return res
-      .status(200)
-      .send({ status: "success", message: "Password is changed" });
-  } catch (error) {
-    console.error(error.message);
-    res.status(500).send("Internal Server Error");
-  }
-};
-
-//to fetch followers
-
-module.exports.fetchFollowers = async (req, res) => {
-  try {
-    let followers = await followersModel.find({});
-    return res.status(200).send({
-      status: "success",
-      data: followers,
-      message: "List of followers",
-    });
-  } catch (error) {
-    console.error(error.message);
-    res.status(500).send("Internal Server Error");
-  }
-};

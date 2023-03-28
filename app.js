@@ -4,13 +4,16 @@ const connectDb = require("./config/mongoose");
 const app = express();
 const PORT = 7000;
 const cors = require("cors");
-const userRouter = require("./router/userRoute");
+const userAccount = require("./router/userAccountRoute");
+const userUpdate=require('./router/userUpdate');
+
 connectDb();
 
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/user", userRouter);
+app.use("/api/userAccount",userAccount );
+app.use("/api/userUpdate", userUpdate);
 
 app.listen(PORT, (err) => {
   if (err) {

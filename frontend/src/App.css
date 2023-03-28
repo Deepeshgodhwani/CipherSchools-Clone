@@ -6,7 +6,39 @@
 
 
 /* Works on Chrome, Edge, and Safari */
-.styleScroll::-webkit-scrollbar {
+.hideScroll::-webkit-scrollbar {
 	width: 0px;
     display: none;
+}
+
+/* Works on Firefox */
+.styleScroll{
+	scrollbar-width: thin;
+	scrollbar-color: rgb(70, 70, 70) auto;
+}
+
+/* Works on Chrome, Edge, and Safari */
+.styleScroll::-webkit-scrollbar {
+	width: 7px;
+}
+
+.styleScroll::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+.styleScroll::-webkit-scrollbar-thumb {
+	background-color:rgb(223,224,225);
+    border-radius: 10px;
+}
+
+/* End scrollbar styling*/
+
+
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
 }

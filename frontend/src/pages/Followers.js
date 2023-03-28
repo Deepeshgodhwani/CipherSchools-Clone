@@ -9,7 +9,7 @@ function Followers() {
   const fetchFollowers = async () => {
     try {
       let token = localStorage.getItem("token");
-      const response = await fetch(`http://localhost:7000/api/user/logUser`, {
+      const response = await fetch(`http://localhost:7000/api/userUpdate/getFollowers`, {
         method: "GET",
         mode: "cors",
         headers: {

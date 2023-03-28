@@ -26,11 +26,10 @@ const userSchema = mongoose.Schema({
     default:
       "https://res.cloudinary.com/dynjwlpl3/image/upload/v1679893125/CipherSchools-clone/user_njz54h.png",
   },
-  interests: [
-    {
-      type: String,
-    },
-  ],
+  userInfo:{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "userInfo",
+  }
 });
 
 const user = mongoose.model("user", userSchema);

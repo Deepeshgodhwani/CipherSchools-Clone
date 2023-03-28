@@ -4,14 +4,14 @@ import menuIcon from "../images/menu.png";
 import logoImg from "../images/cipherlogo.png";
 import filterImg from "../images/filter.png";
 import userContext from "../context/userContext";
-import { Link } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 
 function Navbar() {
   const context = useContext(userContext);
   const { userData } = context;
 
   return (
-    <div className="flex w-full justify-between border-[rgb(60,66,74)] text-[rgb(238,238,238)] px-4 py-4 items-center bg-[rgb(38,44,54)] border-b-[1px]">
+    <div className="flex w-full justify-between h-[9vh] border-[rgb(60,66,74)] text-[rgb(238,238,238)] px-4 py-4 items-center bg-[rgb(38,44,54)] border-b-[1px]">
       <div className="flex space-x-8 justify-between">
         <img alt="" className="w-8" src={menuIcon}></img>
         <div className="flex items-center space-x-2">
@@ -42,14 +42,24 @@ function Navbar() {
             4
           </p>
         </div>
-        {userData.email ? (
+        {userData?.email ? (userData.avtar=== process.env.REACT_APP_DEFAULT_USERAVTAR ?  
           <Link to="/">
-            <img
-              alt=""
-              className="rounded-full h-6 w-6"
-              src={userData.avtar}
-            ></img>
-          </Link>
+          <div
+          className="w-7 ml-1 cursor-pointer h-7 bg-[rgb(72,61,53)] flex justify-center items-center rounded-full"
+        >
+        <img
+          alt=""
+          className="w-3 "
+          src={userData.avtar}
+        ></img>
+      </div>
+        </Link> : <Link to="/">
+          <img
+            alt=""
+            className="rounded-full h-6 w-6"
+            src={userData.avtar}
+          ></img>
+        </Link>
         ) : (
           <Login />
         )}
