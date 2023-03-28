@@ -1,48 +1,45 @@
-import React, { useEffect, useState } from "react";
-import { useToast } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
+import userContext from "../context/userContext";
 
 function Followers() {
-  const toast = useToast();
-  const [followers, setfollowers] = useState([]);
-
-  const fetchFollowers = async () => {
-    try {
-      let token = localStorage.getItem("token");
-      const response = await fetch(`http://localhost:7000/api/userUpdate/getFollowers`, {
-        method: "GET",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-          "auth-token": token,
-        },
-      });
-
-      let result = await response.json();
-      console.log(result);
-      setfollowers(result.data.followers);
-      console.log(followers);
-    } catch (error) {
-      toast({
-        description: "Internal server error",
-        status: "warning",
-        duration: 2000,
-        isClosable: true,
-      });
-    }
-  };
-
-  useEffect(() => {
-    fetchFollowers();
-    // eslint-disable-next-line
-  }, []);
+  const context = useContext(userContext);
+  const { followers } = context;
 
   return (
-    <div>
-      Followers
-      <Link to={"/"}>
-        <div></div>
-      </Link>
+    <div className="bg-[rgb(21,24,30)] text-[rgb(223,224,225)]  relative overflow-y-scroll styleScroll w-full px-6 py-6 space-y-4">
+      <h2 className="font-semibold text-xl">Users Following You</h2>
+      <div className="flex gap-x-8 gap-y-8 justify-center flex-wrap">
+        {followers?.map((follower) => {
+          return (
+            <div
+              key={follower.firtName}
+              className={
+                "bg-[rgb(38,44,54)] w-[12.4rem] items-center   gap-y-2 flex flex-col rounded-lg px-4 py-4"
+              }
+            >
+              <img
+                className="w-20 h-20 rounded-full"
+                src={follower.avtar}
+                alt=""
+              />
+              <div className="flex justify-start w-full items-start flex-col -gap-x-2">
+                <p className="text-lg -mb-1 font-bold">
+                  {follower.firstName} {follower.lastName}
+                </p>
+                <p className="text-left text-[12px]">
+                  {follower.currentStatus}
+                </p>
+                <p className="text-left text-[12px]">
+                  {follower.followers} followers
+                </p>
+              </div>
+              <button className="bg-[rgb(243,145,46)] w-full rounded-md py-[3px]">
+                Follow
+              </button>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }

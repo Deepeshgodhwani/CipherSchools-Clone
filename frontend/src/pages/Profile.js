@@ -9,64 +9,69 @@ import userContext from "../context/userContext";
 import dashboardImg from "../images/dashboard.png";
 import wishListImg from "../images/wishlist.png";
 
-
 function Profile() {
   const context = useContext(userContext);
-  const { userData ,setuserData} = context;
-  const interests = [
-    "Others",
-    "App Development",
-    "Web Development",
-    "Game Development",
-    "Data Structures",
-  ];
+  const { userData, setuserData, followers } = context;
+
+console.log(userData);
+
   return (
     <div className="flex flex-col p-0 relative space-y-1 bg-[rgb(21,24,30)] w-full">
-      <div className={`flex items-center top-0 relative bg justify-between h-[16vh] text-[rgb(241,241,241)] 
-       py-2 px-10 from-transparent border-b-[1px] bg-[url(https://res.cloudinary.com/dynjwlpl3/image/upload/v1679995861/background_cdpmle.png)]  border-[rgb(60,66,74)] `}>
-         <div className="absolute w-full top-o  h-full  left-0 bg-gradient-to-r  from-[#262c36] to-[transparent]"></div>
-         <div className="absolute w-full top-o opacity-40 z-0  h-full  left-0 bg-gradient-to-r from-transparent to-[#262c36]"></div>
+      <div
+        className={`flex items-center top-0 relative bg justify-between h-[16vh] text-[rgb(241,241,241)] 
+       py-2 px-10 from-transparent border-b-[1px] bg-[url(https://res.cloudinary.com/dynjwlpl3/image/upload/v1679995861/background_cdpmle.png)]  border-[rgb(60,66,74)] `}
+      >
+        <div className="absolute w-full top-o  h-full  left-0 bg-gradient-to-r  from-[#262c36] to-[transparent]"></div>
+        <div className="absolute w-full top-o opacity-40 z-0  h-full  left-0 bg-gradient-to-r from-transparent to-[#262c36]"></div>
         <div className="flex z-20 items-center space-x-6">
-          
           <div className="relative ">
-            {!userData?.email || userData.avtar=== process.env.REACT_APP_DEFAULT_USERAVTAR  ?  (
+            {!userData?.email ||
+            userData.avtar === process.env.REACT_APP_DEFAULT_USERAVTAR ? (
               <div
-              className="w-16 h-16 ml-1 cursor-pointer bg-[rgb(189,189,189)]
+                className="w-16 h-16 ml-1 cursor-pointer bg-[rgb(189,189,189)]
                   flex justify-center items-center rounded-full"
-            >
+              >
+                <img
+                  alt=""
+                  className="w-8"
+                  src="https://res.cloudinary.com/dynjwlpl3/image/upload/v1679893125/CipherSchools-clone/user_njz54h.png"
+                ></img>
+              </div>
+            ) : (
               <img
+                className="w-16 h-16 rounded-full"
+                src={userData.avtar}
                 alt=""
-                className="w-8"
-                src="https://res.cloudinary.com/dynjwlpl3/image/upload/v1679893125/CipherSchools-clone/user_njz54h.png"
-              ></img>
-            </div>
-              ) : (
-                <img className="w-16 h-16 rounded-full" src={userData.avtar} alt="" />
+              />
             )}
-            
-             <UpdateProfile setuserData={setuserData} userData={userData}/>
+
+            <UpdateProfile setuserData={setuserData} userData={userData} />
           </div>
 
           <div className="-space-y-1 flex flex-col justify-center">
-               <p className="text-lg">Hello,</p>
-               <p className="text-2xl font-semibold">{userData?.firstName} {userData?.lastName}</p>
-               <p className="text-lg">{userData?.email}</p>
+            <p className="text-lg">Hello,</p>
+            <p className="text-2xl font-semibold">
+              {userData?.firstName} {userData?.lastName}
+            </p>
+            <p className="text-lg">{userData?.email}</p>
           </div>
-
         </div>
         <Link to={"/followers"}>
-          <div className="z-20 text-lg font-semibold relative"> 0 Followers</div>
+          <div className="z-20 text-lg font-semibold relative">
+            {" "}
+            {followers?.length} Followers
+          </div>
         </Link>
       </div>
       <div className="flex justify-between">
         {/* //user info -------------------------------------------------------------------- */}
         <div className="w-full py-4 hideScroll  h-[74vh] overflow-y-scroll px-4 pl-12 text-[rgb(241,241,241)]">
-          <AboutMe setuserData={setuserData} userData={userData}/>
+          <AboutMe setuserData={setuserData} userData={userData} />
           <div className="space-y-2 py-4 border-b-[1px] border-[rgb(45,48,53)]">
             <p className="font-semibold text-lg">CIPHER MAP</p>
             <div></div>
           </div>
-           <WebUrls setuserData={setuserData} userData={userData} />
+          <WebUrls setuserData={setuserData} userData={userData} />
           <div className="space-y-2 py-4 border-b-[1px] border-[rgb(45,48,53)]">
             <div className="flex justify-between items-center">
               <p className="font-semibold text-lg">PROFESSIONAL INFORMATION</p>
@@ -74,8 +79,8 @@ function Profile() {
                 Edit
               </button>
             </div>
-            <div className="flex gap-x-8 ">
-              <div className="space-y-2 w-[28.9rem]">
+            <div className="flex gap-x-[3%] ">
+              <div className="space-y-2 w-[48.4%]">
                 <p className="font-semibold text-base">Highest education</p>
                 <div className="flex bg-[rgb(38,44,54)] py-2 rounded-lg px-4 justify-between items-center ">
                   <p className="text-[rgb(201,202,205)] font-semibold">
@@ -84,7 +89,7 @@ function Profile() {
                   <i className="fa-solid fa-angle-down text-[rgb(128,129,145)]  "></i>
                 </div>
               </div>
-              <div className="space-y-2 w-[28.9rem]">
+              <div className="space-y-2 w-[48.4%]">
                 <p className="font-semibold text-base">
                   What do you do currently?
                 </p>
@@ -100,9 +105,9 @@ function Profile() {
           <div className="space-y-2 py-4 border-b-[1px] border-[rgb(45,48,53)]">
             <div className="flex justify-between items-center">
               <p className="font-semibold text-lg">PASSWORD & SECURITY</p>
-              <ResetPassword   />
+              <ResetPassword />
             </div>
-            <div className="space-y-2 w-[28.9rem]">
+            <div className="space-y-2 w-full">
               <p className="font-semibold text-base">Password</p>
               <div className="flex bg-[rgb(38,44,54)] py-2 rounded-lg px-4  ">
                 <input
@@ -118,10 +123,10 @@ function Profile() {
           <div className="space-y-2 py-4 border-b-[1px] border-[rgb(45,48,53)]">
             <div className="flex justify-between items-center">
               <p className="font-semibold text-lg">INTERESTS</p>
-              <UpdateInterests />
+              <UpdateInterests  setuserData={setuserData} userData={userData}/>
             </div>
             <div className="flex gap-x-4">
-              {interests.map((interest) => {
+              {userData?.userInfo?.interests?.map((interest) => {
                 return (
                   <div
                     className="bg-[rgb(44,37,32)] text-sm rounded-md py-[6px] px-4 text-[rgb(243,145,46)]"

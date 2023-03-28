@@ -17,7 +17,7 @@ function WebUrls(props) {
   useEffect(() => {
     const updateBio = () => {
       if (userData?.userInfo) {
-        setweburls(userData.userInfo.weburls);
+        setweburls(userData.userInfo.webUrls);
       }
     };
     updateBio();
@@ -60,7 +60,6 @@ function WebUrls(props) {
         if (result.status === "success") {
           localStorage.setItem("user", JSON.stringify(result.data));
           setuserData(result.data);
-          console.log(result);
           toast({
             description: "Updated Web Urls ",
             status: "success",
@@ -95,8 +94,8 @@ function WebUrls(props) {
           Edit
         </button>
       </div>
-      <div className="flex gap-x-8 gap-y-4 flex-wrap">
-        <div className="space-y-2 w-[28.9rem]">
+      <div className="flex gap-x-[3%] gap-y-4 flex-wrap">
+        <div className="space-y-2   w-[48.4%]">
           <p className="font-semibold text-base">Linkedin</p>
           <div className="flex bg-[rgb(38,44,54)] rounded-lg px-4 items-center space-x-2 ">
             <div className="bg-[rgb(128,129,145)] rounded-full h-7 w-7 flex justify-center items-center">
@@ -105,7 +104,7 @@ function WebUrls(props) {
             <input
               type={"text"}
               placeholder={"LinkedIn"}
-              className={"bg-transparent input text-sm w-96 outline-none py-3 "}
+              className={"bg-transparent input text-sm w-full outline-none py-3 "}
               value={weburls?.linkedin}
               name={"linkedin"}
               onChange={handleInputText}
@@ -115,14 +114,14 @@ function WebUrls(props) {
           </div>
         </div>
 
-        <div className="space-y-2 w-[28.9rem]">
+        <div className="space-y-2  w-[48.4%]">
           <p className="font-semibold text-base">Github</p>
           <div className="flex bg-[rgb(38,44,54)] rounded-lg px-4 items-center space-x-2 ">
             <i className="fa-brands text-[rgb(128,129,145)] text-2xl fa-github"></i>
             <input
               type={"text"}
               placeholder={"GitHub"}
-              className={"bg-transparent input text-sm w-60 outline-none py-3 "}
+              className={"bg-transparent input text-sm w-full outline-none py-3 "}
               value={weburls?.github}
               onChange={handleInputText}
               name={"github"}
@@ -131,7 +130,7 @@ function WebUrls(props) {
             ></input>
           </div>
         </div>
-        <div className="space-y-2 w-[28.9rem]">
+        <div className="space-y-2    w-[48.4%]">
           <p className="font-semibold text-base">Facebook</p>
           <div className="flex bg-[rgb(38,44,54)] rounded-lg px-4 items-center space-x-2 ">
             <div className="bg-[rgb(128,129,145)] rounded-full h-7 w-7 flex justify-center items-center">
@@ -140,7 +139,7 @@ function WebUrls(props) {
             <input
               type={"text"}
               placeholder={"Facebook"}
-              className={"bg-transparent input text-sm w-60 outline-none py-3 "}
+              className={"bg-transparent input text-sm w-full outline-none py-3 "}
               value={weburls?.facebook}
               onChange={handleInputText}
               name={"facebook"}
@@ -149,7 +148,7 @@ function WebUrls(props) {
             ></input>
           </div>
         </div>
-        <div className="space-y-2 w-[28.9rem]">
+        <div className="space-y-2    w-[48.4%]">
           <p className="font-semibold text-base">Twitter</p>
           <div className="flex bg-[rgb(38,44,54)] rounded-lg px-4 items-center space-x-2 ">
             <div className="bg-[rgb(128,129,145)] rounded-full h-7 w-7 flex justify-center items-center">
@@ -158,7 +157,7 @@ function WebUrls(props) {
             <input
               type={"text"}
               placeholder={"Twitter"}
-              className={"bg-transparent input text-sm w-60 outline-none py-3 "}
+              className={"bg-transparent input text-sm w-full outline-none py-3 "}
               value={weburls?.twitter}
               onChange={handleInputText}
               name={"twitter"}
@@ -167,7 +166,7 @@ function WebUrls(props) {
             ></input>
           </div>
         </div>
-        <div className="space-y-2 w-[28.9rem]">
+        <div className="space-y-2    w-[48.4%]">
           <p className="font-semibold text-base">Instagram</p>
           <div className="flex bg-[rgb(38,44,54)] rounded-lg px-4 items-center space-x-2 ">
             <div className="bg-[rgb(128,129,145)] rounded-full h-7 w-7 flex justify-center items-center">
@@ -176,7 +175,7 @@ function WebUrls(props) {
             <input
               type={"text"}
               placeholder={"Instagram"}
-              className={"bg-transparent input text-sm w-60 outline-none py-3 "}
+              className={"bg-transparent input text-sm w-full outline-none py-3 "}
               value={weburls?.instagram}
               onChange={handleInputText}
               name={"instagram"}
@@ -185,7 +184,7 @@ function WebUrls(props) {
             ></input>
           </div>
         </div>
-        <div className="space-y-2 w-[28.9rem]">
+        <div className="space-y-2    w-[48.4%]">
           <p className="font-semibold text-base">Website</p>
           <div className="flex bg-[rgb(38,44,54)] rounded-lg px-4 items-center space-x-2 ">
             <div className="bg-[rgb(128,129,145)] rounded-full h-7 w-7 flex justify-center items-center">
@@ -194,7 +193,7 @@ function WebUrls(props) {
             <input
               type={"text"}
               placeholder={"Website"}
-              className={"bg-transparent input text-sm w-60 outline-none py-3 "}
+              className={"bg-transparent input text-sm w-full outline-none py-3 "}
               value={weburls?.website}
               onChange={handleInputText}
               name={"website"}

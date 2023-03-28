@@ -16,8 +16,8 @@ function Aside() {
   };
 
   return (
-    <div className="bg-[rgb(38,44,54)] h-[91vh] flex pt-2 pb-2 px-1 flex-col  text-[rgb(238,238,238)] border-r-[1px] border-[rgb(60,66,74)]">
-      <div className="flex hideScroll border-b-[1px] border-[rgb(60,66,74)] flex-col overflow-y-scroll h-[77vh] ">
+    <div className="bg-[rgb(38,44,54)] justify-between h-[91vh] flex pt-2 pb-2 px-1 flex-col  text-[rgb(238,238,238)] border-r-[1px] border-[rgb(60,66,74)]">
+      <div className="flex hideScroll flex-col overflow-y-scroll h-[77vh] ">
         <div className="flex flex-col cursor-pointer space-y-1 py-2 px-2 rounded-lg hover:bg-[rgb(88,51,26)] items-center">
           <i className="fa-solid fa-house"></i>
           <p className="text-[10px]">Home</p>
@@ -61,13 +61,13 @@ function Aside() {
       {userData?.email ? (
         <div
           onClick={logoutUser}
-          className="flex flex-col cursor-pointer mt-1 space-y-0 py-1 px-2 rounded-lg hover:bg-[rgb(88,51,26)] items-center"
+          className="flex flex-col  border-t-[1px] border-[rgb(60,66,74)]  cursor-pointer mt-1 space-y-0 py-1 px-2 rounded-lg hover:bg-[rgb(88,51,26)] items-center"
         >
           <i className="fa-solid text-lg fa-right-from-bracket"></i>
           <p className="text-[11px]">Logout</p>
         </div>
       ) : (
-        <div className="flex flex-col cursor-pointer mt-1 space-y-0 py-1 px-2 rounded-lg hover:bg-[rgb(88,51,26)] items-center">
+        <div className="flex flex-col  border-t-[1px] border-[rgb(60,66,74)]  cursor-pointer mt-1 space-y-0 py-1 px-2 rounded-lg hover:bg-[rgb(88,51,26)] items-center">
           <i className="fa-solid fa-right-to-bracket fa-rotate-180"></i>
           <p className="text-[11px]">Signin</p>
         </div>

@@ -41,8 +41,8 @@ module.exports.updateUserProfile = async (req, res) => {
 
   module.exports.updateUserInfo = async (req, res) => {
     try {
-       console.log(req.body);
-      let user = await userInfoModel.findByIdAndUpdate(req.user, req.body)
+    
+      let user = await userInfoModel.findOneAndUpdate({user:req.user}, req.body)
 
       if(!user){
         let data={...req.body,user:req.user};
