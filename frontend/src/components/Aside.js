@@ -9,13 +9,15 @@ import { useNavigate } from "react-router-dom";
 function Aside() {
   const context = useContext(userContext);
   let history=useNavigate();
-  const { userData, setuserData } = context;
+  const { userData, setuserData ,setfollowers } = context;
 
   const logoutUser = () => {
-    history('/');
+  //reseting user on signing out //
     localStorage.clear("user");
     localStorage.clear("token");
+    setfollowers([]);
     setuserData({});
+    history('/');
   };
 
   return (

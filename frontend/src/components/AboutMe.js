@@ -27,7 +27,7 @@ function AboutMe(props) {
       setisEdit(false);
     } else {
       //if about me is empty or same as it was then return
-      if (!bio || bio === userData?.userInfo?.about) {
+      if(bio === userData?.userInfo?.about) {
         textArea.disabled = true;
         button.innerText = "Edit";
         setisEdit(true);

@@ -43,7 +43,7 @@ const UserState = (props) => {
     
     
   return (
-    <userContext.Provider value={{setuserData,userData,followers, loading,setloading}}>
+    <userContext.Provider value={{setuserData,userData,followers, loading,setloading,setfollowers}}>
       {props.children}
     </userContext.Provider>
   );
