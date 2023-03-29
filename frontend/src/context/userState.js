@@ -1,23 +1,25 @@
 import { useState ,useEffect} from "react";
 import userContext from "./userContext";
+const URL = process.env.REACT_APP_HOST;
 
 const UserState = (props) => {
     const [userData, setuserData] = useState({})
     const [followers, setfollowers] = useState([]);
     const [loading, setloading] = useState(true);
 
-
+     //fetching user details to globalise 
     useEffect(() => {    
       const user = JSON.parse(localStorage.getItem("user"));
        setuserData(user); 
     }, [])
     
-
+     
+    //fetching followers
     const fetchFollowers = async ()=>{
       if(!userData?.email) return ;
      try {
        let token = localStorage.getItem("token");
-       const response = await fetch(`http://localhost:7000/api/userUpdate/getFollowers`, {
+       const response = await fetch(`${URL}/api/userUpdate/getFollowers`, {
          method: "GET",
          mode: "cors",
          headers: {
