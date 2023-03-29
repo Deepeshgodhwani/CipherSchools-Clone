@@ -114,7 +114,7 @@ function Signup(props) {
       >
         <div className="flex font-semibold text-3xl   justify-between">
           <p>Signup</p>
-          <i onClick={onClose} className="fa-solid fa-xmark"></i>
+          <i className="fa-solid fa-xmark"></i>
         </div>
         <div className="flex flex-col styleScroll overflow-y-scroll space-y-3 w-full items-center px-4">
           <div className="flex items-center space-x-2">
