@@ -19,6 +19,12 @@ function Signup(props) {
   const context = useContext(userContext);
   const { setuserData, setloading } = context;
 
+
+  function isValidEmail(email) {
+    return /\S+@\S+\.\S+/.test(email);
+  }
+
+
   const createUser = async (e) => {
     e.preventDefault();
     //if input fields are empty
@@ -29,6 +35,15 @@ function Signup(props) {
       !userDetails.password
     ) {
       return;
+    }
+
+    if(!isValidEmail(userDetails.email)){
+      toast({
+        description: "Invalid Email Address",
+        status: "warning",
+        duration: 2000,
+        isClosable: true,
+      });
     }
 
     try {
@@ -106,6 +121,18 @@ function Signup(props) {
   const handleInputText = (e) => {
     setuserDetails({ ...userDetails, [e.target.name]: e.target.value });
   };
+
+
+  const switchTab =()=>{
+    toggleSigninView(true);
+    setuserDetails({
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      contactNo: "",
+    });
+  }
 
   return (
     !isSignin && (
@@ -201,9 +228,7 @@ function Signup(props) {
           <div className="flex">
             Don't have an account ?
             <p
-              onClick={() => {
-                toggleSigninView(true);
-              }}
+              onClick={switchTab}
               className=" 
                     text-[rgb(216,132,47)] cursor-pointer"
             >

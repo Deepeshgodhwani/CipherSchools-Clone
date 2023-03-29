@@ -35,7 +35,7 @@ function ProfessionalInfo(props) {
       setisEdit(true);
       //if info is empty or same as it was then return
       if (
-        userData.userInfo.currentStatus === currentStatus ||
+        userData?.userInfo?.currentStatus === currentStatus ||
         (currentStatus.highestEdu === "" && currentStatus.currentlyDoing === "")
       )
         return;

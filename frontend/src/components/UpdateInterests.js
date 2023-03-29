@@ -49,9 +49,9 @@ function UpdateInterests(props) {
 
   //to add new user interests in interest array
   const addInterests = (interest) => {
-    let index = userInterests.findIndex((elem) => elem === interest);
+    let index = userInterests?.findIndex((elem) => elem === interest);
     //if interest is not in data array then push it
-    if (index === -1) {
+    if (index === -1 || !index) {
       setuserInterests([...userInterests, interest]);
       setinterests(
         interests.map((element) => {

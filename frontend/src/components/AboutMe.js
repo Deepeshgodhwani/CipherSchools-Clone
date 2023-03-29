@@ -10,7 +10,11 @@ function AboutMe(props) {
 
   useEffect(() => {
     const updateBio = () => {
-      setbio(userData?.userInfo?.about);
+      if(userData?.userInfo?.about){
+        setbio(userData?.userInfo?.about);
+      }else{
+         setbio("");
+      }
     };
     updateBio();
   }, [userData]);

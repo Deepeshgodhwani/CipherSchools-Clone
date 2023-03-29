@@ -93,6 +93,14 @@ function Login() {
     setisSignin(value);
   };
 
+  
+  const switchTab =()=>{
+    toggleSigninView(false);
+    setuserCredentials({ email: "", password: "" });
+    
+  }
+
+
   return (
     <div>
       <div
@@ -164,9 +172,7 @@ function Login() {
                 <div className="flex">
                   Don't have an account ?
                   <p
-                    onClick={() => {
-                      toggleSigninView(false);
-                    }}
+                    onClick={switchTab}
                     className=" 
                     text-[rgb(216,132,47)] cursor-pointer"
                   >
