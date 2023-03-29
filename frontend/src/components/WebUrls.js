@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useToast } from "@chakra-ui/react";
+const URL = process.env.REACT_APP_HOST;
 
 function WebUrls(props) {
   const [weburls, setweburls] = useState({
@@ -11,13 +12,22 @@ function WebUrls(props) {
     website: "",
   });
   const [isEdit, setisEdit] = useState(true);
-  const { userData, setuserData } = props;
+  const { userData, setuserData, setloading } = props;
   const toast = useToast();
 
   useEffect(() => {
     const updateBio = () => {
       if (userData?.userInfo) {
         setweburls(userData.userInfo.webUrls);
+      } else {
+        setweburls({
+          linkedin: "",
+          github: "",
+          facebook: "",
+          twitter: "",
+          instagram: "",
+          website: "",
+        });
       }
     };
     updateBio();
@@ -26,6 +36,7 @@ function WebUrls(props) {
   const onEditing = async () => {
     let inputs = document.getElementsByClassName("input");
     let button = document.getElementById("buttonn");
+    //to enable edit mode
     if (isEdit) {
       for (let input of inputs) {
         input.disabled = false;
@@ -33,32 +44,34 @@ function WebUrls(props) {
       button.innerText = "Save";
       setisEdit(false);
     } else {
+      //to disable edit mode
       let inputs = document.getElementsByClassName("input");
       for (let input of inputs) {
         input.disabled = true;
       }
       button.innerText = "Edit";
       setisEdit(true);
-      if (weburls === userData?.userInfo?.WebUrls) return;
+      if (weburls === userData?.userInfo?.webUrls) return;
 
       try {
+        setloading(true);
         let token = localStorage.getItem("token");
-        const response = await fetch(
-          `http://localhost:7000/api/userUpdate/updateUserInfo`,
-          {
-            method: "PUT",
-            mode: "cors",
-            headers: {
-              "Content-Type": "application/json",
-              "auth-token": token,
-            },
-            body: JSON.stringify({ webUrls: weburls }),
-          }
-        );
+        const response = await fetch(`${URL}/api/userUpdate/updateUserInfo`, {
+          method: "PUT",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+            "auth-token": token,
+          },
+          body: JSON.stringify({ webUrls: weburls }),
+        });
 
         let result = await response.json();
+        setloading(false);
         if (result.status === "success") {
+          //saving upated user to local storage
           localStorage.setItem("user", JSON.stringify(result.data));
+          //updating global user data state
           setuserData(result.data);
           toast({
             description: "Updated Web Urls ",
@@ -74,6 +87,7 @@ function WebUrls(props) {
           duration: 2000,
           isClosable: true,
         });
+        setloading(false);
       }
     }
   };
@@ -104,7 +118,9 @@ function WebUrls(props) {
             <input
               type={"text"}
               placeholder={"LinkedIn"}
-              className={"bg-transparent input text-sm w-full outline-none py-3 "}
+              className={
+                "bg-transparent input text-sm w-full outline-none py-3 "
+              }
               value={weburls?.linkedin}
               name={"linkedin"}
               onChange={handleInputText}
@@ -121,7 +137,9 @@ function WebUrls(props) {
             <input
               type={"text"}
               placeholder={"GitHub"}
-              className={"bg-transparent input text-sm w-full outline-none py-3 "}
+              className={
+                "bg-transparent input text-sm w-full outline-none py-3 "
+              }
               value={weburls?.github}
               onChange={handleInputText}
               name={"github"}
@@ -139,7 +157,9 @@ function WebUrls(props) {
             <input
               type={"text"}
               placeholder={"Facebook"}
-              className={"bg-transparent input text-sm w-full outline-none py-3 "}
+              className={
+                "bg-transparent input text-sm w-full outline-none py-3 "
+              }
               value={weburls?.facebook}
               onChange={handleInputText}
               name={"facebook"}
@@ -157,7 +177,9 @@ function WebUrls(props) {
             <input
               type={"text"}
               placeholder={"Twitter"}
-              className={"bg-transparent input text-sm w-full outline-none py-3 "}
+              className={
+                "bg-transparent input text-sm w-full outline-none py-3 "
+              }
               value={weburls?.twitter}
               onChange={handleInputText}
               name={"twitter"}
@@ -175,7 +197,9 @@ function WebUrls(props) {
             <input
               type={"text"}
               placeholder={"Instagram"}
-              className={"bg-transparent input text-sm w-full outline-none py-3 "}
+              className={
+                "bg-transparent input text-sm w-full outline-none py-3 "
+              }
               value={weburls?.instagram}
               onChange={handleInputText}
               name={"instagram"}
@@ -193,7 +217,9 @@ function WebUrls(props) {
             <input
               type={"text"}
               placeholder={"Website"}
-              className={"bg-transparent input text-sm w-full outline-none py-3 "}
+              className={
+                "bg-transparent input text-sm w-full outline-none py-3 "
+              }
               value={weburls?.website}
               onChange={handleInputText}
               name={"website"}

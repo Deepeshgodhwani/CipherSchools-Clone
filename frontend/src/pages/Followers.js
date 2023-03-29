@@ -6,15 +6,15 @@ function Followers() {
   const { followers } = context;
 
   return (
-    <div className="bg-[rgb(21,24,30)] text-[rgb(223,224,225)]  relative overflow-y-scroll styleScroll w-full px-6 py-6 space-y-4">
+    <div className="bg-[rgb(21,24,30)] text-[rgb(223,224,225)]  relative  w-full px-6 pt-6 space-y-4">
       <h2 className="font-semibold text-xl">Users Following You</h2>
-      <div className="flex gap-x-8 gap-y-8 justify-center flex-wrap">
+      <div className="flex gap-x-[2.5%] overflow-y-scroll styleScroll h-[77vh]  flex-wrap">
         {followers?.map((follower) => {
           return (
             <div
               key={follower.firtName}
               className={
-                "bg-[rgb(38,44,54)] w-[12.4rem] items-center   gap-y-2 flex flex-col rounded-lg px-4 py-4"
+                "bg-[rgb(38,44,54)] w-[18%] items-center h-56   gap-y-2 flex flex-col rounded-lg px-4 py-4"
               }
             >
               <img

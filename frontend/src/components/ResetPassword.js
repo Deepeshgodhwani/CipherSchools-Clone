@@ -1,25 +1,22 @@
 import React, { useState } from "react";
-import { useToast } from "@chakra-ui/react";
-
 import {
   Modal,
   ModalOverlay,
   ModalContent,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
+const URL = process.env.REACT_APP_HOST;
 
-function ResetPassword() {
+function ResetPassword(props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
+  const { setloading } = props;
   const [password, setpassword] = useState({
     currentPass: "",
     newPass: "",
     confPass: "",
   });
-
-  const handleInputText = (e) => {
-    setpassword({ ...password, [e.target.name]: e.target.value });
-  };
 
   const closeTab = () => {
     setpassword({
@@ -31,11 +28,13 @@ function ResetPassword() {
   };
 
   const handleSubmit = async () => {
+    //if info is empty or same as it was then return
     if (
       password.currPass === "" ||
       password.newPass === "" ||
       password.confPass === ""
-    )return;
+    )
+      return;
 
     if (password.currPass === password.newPass) {
       toast({
@@ -46,8 +45,8 @@ function ResetPassword() {
       });
       return;
     }
-
-    if(password.newPass !==password.confPass){
+    //if current password and new password does'nt match
+    if (password.newPass !== password.confPass) {
       toast({
         description: "New password and Confirm password should be same",
         status: "warning",
@@ -57,26 +56,24 @@ function ResetPassword() {
       return;
     }
 
-
     try {
+      setloading(true);
       let token = localStorage.getItem("token");
-      const response = await fetch(
-        `http://localhost:7000/api/userUpdate/resetPassword`,
-        {
-          method: "PUT",
-          mode: "cors",
-          headers: {
-            "Content-Type": "application/json",
-            "auth-token": token,
-          },
-          body: JSON.stringify({
-            currPass: password.currentPass,
-            newPass: password.newPass,
-          }),
-        }
-      );
+      const response = await fetch(`${URL}/api/userUpdate/resetPassword`, {
+        method: "PUT",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": token,
+        },
+        body: JSON.stringify({
+          currPass: password.currentPass,
+          newPass: password.newPass,
+        }),
+      });
 
       let result = await response.json();
+      setloading(false);
       if (result.status === "success") {
         toast({
           description: "Profile updated successfully",
@@ -86,6 +83,7 @@ function ResetPassword() {
         });
         closeTab();
       } else {
+        //if Old Current password is not correct
         toast({
           description: result.message,
           status: "warning",
@@ -106,8 +104,13 @@ function ResetPassword() {
         confPass: "",
       });
       closeTab();
-      
+      setloading(false);
     }
+  };
+
+  //updating input text in passoword object
+  const handleInputText = (e) => {
+    setpassword({ ...password, [e.target.name]: e.target.value });
   };
 
   return (
@@ -120,7 +123,7 @@ function ResetPassword() {
       </button>
       <Modal isOpen={isOpen} onClose={closeTab}>
         <ModalOverlay />
-        <ModalContent backgroundColor={"transparent"} padding={"0"} top={"16"}>
+        <ModalContent backgroundColor={"transparent"} padding={"0"} top={"24"}>
           <div className="flex bg-[rgb(38,44,54)]  space-y-6 flex-col px-8 absolute text-[rgb(238,238,238)] rounded-xl py-8">
             <div className="flex-col  flex space-y-1">
               <div className="space-y-2 ">
@@ -131,7 +134,7 @@ function ResetPassword() {
                   className="bg-[rgb(21,24,30)] 
                               outline-none w-[27rem] py-2 rounded-[10px] px-4"
                   placeholder="Current Password"
-                  type={"text"}
+                  type={"password"}
                   value={password.currentPass}
                   onChange={handleInputText}
                   required
@@ -145,7 +148,7 @@ function ResetPassword() {
                   className="bg-[rgb(21,24,30)] 
                               outline-none w-[27rem] py-2 rounded-[10px] px-4"
                   placeholder="New Password"
-                  type={"text"}
+                  type={"password"}
                   value={password.newPass}
                   onChange={handleInputText}
                   required
@@ -159,7 +162,7 @@ function ResetPassword() {
                   className="bg-[rgb(21,24,30)] 
                               outline-none w-[27rem] py-2 rounded-[10px] px-4"
                   placeholder="Confirm Password"
-                  type={"text"}
+                  type={"password"}
                   value={password.confPass}
                   onChange={handleInputText}
                   required

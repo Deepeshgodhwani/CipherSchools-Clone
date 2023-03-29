@@ -4,26 +4,30 @@ import {
   ModalOverlay,
   ModalContent,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
-import { useToast } from "@chakra-ui/react";
+const URL = process.env.REACT_APP_HOST;
 
 function UpdateProfile(props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { userData, setuserData } = props;
+  const { userData, setuserData, setloading } = props;
   const toast = useToast();
   const [currentData, setcurrentData] = useState({
     firstName: "",
     lastName: "",
     avtar: "",
     contactNo: "",
+    email: "",
   });
 
+  //updating current data to initials
   const UpdateCurrentData = () => {
     setcurrentData({
       firstName: userData?.firstName,
       lastName: userData?.lastName,
       contactNo: userData?.contactNo,
       avtar: userData?.avtar,
+      email: userData?.email,
     });
   };
 
@@ -31,18 +35,15 @@ function UpdateProfile(props) {
     UpdateCurrentData();
   }, [userData]);
 
-  const handleInputText = (e) => {
-    setcurrentData({ ...currentData, [e.target.name]: e.target.value });
-  };
-
   const UploadPic = async (e) => {
     try {
-      console.log(e);
+      //uploading picture in cloudinary to get image url
       if (
         e.target.files[0] &&
         (e.target.files[0].type === "image/jpeg" ||
           e.target.files[0].type === "image/png")
       ) {
+        setloading(true);
         const formData = new FormData();
         formData.append("file", e.target.files[0]);
         formData.append("upload_preset", "chat_app");
@@ -56,9 +57,9 @@ function UpdateProfile(props) {
         );
         let pic = await response.json();
         let picture = pic.url.toString();
-        console.log(picture);
         setcurrentData({ ...currentData, avtar: picture });
         e.target.value = null;
+        setloading(false);
       } else {
         toast({
           description: "picture format should be jpeg or png",
@@ -79,6 +80,7 @@ function UpdateProfile(props) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    ////if info is empty or same as it was then return
     if (
       userData.firstName === currentData.firstName &&
       userData.lastName === currentData.lastName &&
@@ -100,32 +102,32 @@ function UpdateProfile(props) {
     }
 
     try {
+      setloading(true);
+      onClose();
       let token = localStorage.getItem("token");
-      const response = await fetch(
-        `http://localhost:7000/api/userUpdate/updateUser`,
-        {
-          method: "PUT",
-          mode: "cors",
-          headers: {
-            "Content-Type": "application/json",
-            "auth-token": token,
-          },
-          body: JSON.stringify(currentData),
-        }
-      );
+      const response = await fetch(`${URL}/api/userUpdate/updateUser`, {
+        method: "PUT",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": token,
+        },
+        body: JSON.stringify(currentData),
+      });
 
       let result = await response.json();
+      setloading(false);
       if (result.status === "success") {
+        //saving upated user to local storage
         localStorage.setItem("user", JSON.stringify(result.data));
-
         toast({
           description: "Profile updated successfully",
           status: "success",
           duration: 2000,
           isClosable: true,
         });
+        //updating global user data state
         setuserData(result.data);
-        onClose();
       } else {
         toast({
           description: result.message,
@@ -136,20 +138,24 @@ function UpdateProfile(props) {
         UpdateCurrentData();
       }
     } catch (error) {
-      console.log(error);
       toast({
         description: "Internal server error",
         status: "warning",
         duration: 2000,
         isClosable: true,
       });
-      closeTab()
+      closeTab();
+      setloading(false);
     }
   };
 
   const closeTab = () => {
     UpdateCurrentData();
     onClose();
+  };
+
+  const handleInputText = (e) => {
+    setcurrentData({ ...currentData, [e.target.name]: e.target.value });
   };
 
   return (
@@ -163,7 +169,7 @@ function UpdateProfile(props) {
       </div>
       <Modal isOpen={isOpen} onClose={closeTab}>
         <ModalOverlay />
-        <ModalContent backgroundColor={"transparent"} top="4">
+        <ModalContent backgroundColor={"transparent"} top="10">
           <div className="bg-[rgb(38,44,54)] -left-28 flex flex-col absolute text-[rgb(238,238,238)] rounded-xl px-2 py-4">
             <div className="flex font-semibold text-xl px-4 justify-between">
               <p className="">Profile Update</p>

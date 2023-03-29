@@ -99,7 +99,7 @@ module.exports.getUser = async (req, res) => {
         .status(200)
         .send({ status: "success", data: user, message: "user detail" });
     }
-
+     //returning error if user does'nt found //
     return res.status(200).send({
       status: "failure",
       message: "Please enter valid login credentials",

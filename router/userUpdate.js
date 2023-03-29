@@ -8,6 +8,9 @@ const {
 } = require("../controller/userUpdateCont");
 const router = express.Router();
 
+
+//  Routes for user update ------
+
 router.put("/updateUser", JWT_Auth, updateUserProfile);
 router.put("/updateUserInfo", JWT_Auth, updateUserInfo);
 router.put("/resetPassword", JWT_Auth, changePassword);

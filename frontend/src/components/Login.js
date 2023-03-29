@@ -1,15 +1,17 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useToast } from "@chakra-ui/react";
+import Signup from "./Signup";
+import logoImg from "../images/cipherlogo.png";
+import googleImg from "../images/google.png";
+import userContext from "../context/userContext";
 import {
   Modal,
   ModalOverlay,
   ModalContent,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
-import Signup from "./Signup";
-import logoImg from "../images/cipherlogo.png";
-import googleImg from "../images/google.png";
-import userContext from "../context/userContext";
+
+const URL = process.env.REACT_APP_HOST;
 
 function Login() {
   const toast = useToast();
@@ -20,19 +22,14 @@ function Login() {
     password: "",
   });
   const context = useContext(userContext);
-  const { setuserData,userData } = context;
+  const { setuserData, userData, setloading } = context;
 
- 
-  
- 
   useEffect(() => {
-      
-     if(!userData?.email){
-           onOpen()
-      }
-     // eslint-disable-next-line
-  }, [])
-  
+    if (!userData?.email) {
+      onOpen();
+    }
+    // eslint-disable-next-line
+  }, []);
 
   const logUser = async (e) => {
     try {
@@ -40,8 +37,8 @@ function Login() {
       if (!userCredentials.email || !userCredentials.password) {
         return;
       }
-
-      const response = await fetch(`http://localhost:7000/api/userAccount/logUser`, {
+      setloading(true);
+      const response = await fetch(`${URL}/api/userAccount/logUser`, {
         method: "POST",
         mode: "cors",
         headers: {
@@ -63,6 +60,7 @@ function Login() {
           isClosable: true,
         });
         onClose();
+        setloading(false);
       } else {
         toast({
           description: result.message,
@@ -71,6 +69,7 @@ function Login() {
           isClosable: true,
         });
         setuserCredentials({ email: "", password: "" });
+        setloading(false);
       }
     } catch (error) {
       console.log(error);
@@ -81,6 +80,7 @@ function Login() {
         duration: 2000,
         isClosable: true,
       });
+      setloading(false);
     }
   };
 
@@ -91,9 +91,6 @@ function Login() {
   const toggleSigninView = (value) => {
     setisSignin(value);
   };
-
-
-
 
   return (
     <div>
@@ -107,23 +104,27 @@ function Login() {
           src={process.env.REACT_APP_DEFAULT_USERAVTAR}
         ></img>
       </div>
-      <Modal isOpen={isOpen} >
+      <Modal isOpen={isOpen}>
         <ModalOverlay />
         <ModalContent backgroundColor={"transparent"} textColor="white">
           {isSignin && (
-            <div className="w-[37rem] flex text-[rgb(238,238,238)] flex-col rounded-3xl p-4  px-6 h-[36rem] -top-10 -left-16 absolute bg-[rgb(38,44,54)]">
+            <div className="w-[37rem] flex text-[rgb(238,238,238)] flex-col rounded-3xl p-4  px-6 h-[92vh] -top-10 -left-16 absolute bg-[rgb(38,44,54)]">
               <div className="flex font-semibold text-3xl justify-between">
                 <p className="">Signin</p>
-                <i  className="fa-solid fa-xmark"></i>
+                <i className="fa-solid fa-xmark"></i>
               </div>
-              <div className="flex flex-col space-y-3 w-full items-center px-4">
+              <div className="flex flex-col space-y-3 w-full pt-8 items-center px-4">
                 <div className="flex items-center space-x-2">
                   <img alt="" className="w-10 " src={logoImg}></img>
                   <div className="font-bold text-2xl">CipherSchools</div>
                 </div>
                 <div className="text-center space-y-2">
-                  <p className="font-semibold text-[rgb(218,219,221)] text-lg">Hey, Welcome!</p>
-                  <p className="text-[rgb(174,176,180)]">Please provide your email and password to signin</p>
+                  <p className="font-semibold text-[rgb(218,219,221)] text-lg">
+                    Hey, Welcome!
+                  </p>
+                  <p className="text-[rgb(174,176,180)]">
+                    Please provide your email and password to signin
+                  </p>
                 </div>
                 <div className="flex flex-col space-y-4 pt-6">
                   <input

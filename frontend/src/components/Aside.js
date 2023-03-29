@@ -4,12 +4,15 @@ import dashboardImg from "../images/dashboard.png";
 import feedbackImg from "../images/feedback.png";
 import tourImg from "../images/destination.png";
 import userContext from "../context/userContext";
+import { useNavigate } from "react-router-dom";
 
 function Aside() {
   const context = useContext(userContext);
+  let history=useNavigate();
   const { userData, setuserData } = context;
 
   const logoutUser = () => {
+    history('/');
     localStorage.clear("user");
     localStorage.clear("token");
     setuserData({});

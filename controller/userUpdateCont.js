@@ -9,19 +9,21 @@ const bcrypt = require("bcryptjs");
 module.exports.updateUserProfile = async (req, res) => {
     try {
        const {contactNo,email}=req.body;
-       let userr=await userModel.findOne({contactNo});
+
+       let userr=await userModel.findById(req.user);
        
-       
-       if(userr.contactNo && userr.email!==email ){
-            
+       //checking if contact no is already registered or not //
+       if(userr.contactNo === contactNo){
+          
           return res.status(200).send({
              status: "failure",
              message: "Contact number is already registered",
           })
        }
-  
+        
+      
       await userModel.findByIdAndUpdate(req.user, req.body)
-
+      //populating  userInfo
       const updatedUser=await userModel.findById(req.user)
       .populate('userInfo')
       .select("-password");
@@ -41,16 +43,18 @@ module.exports.updateUserProfile = async (req, res) => {
 
   module.exports.updateUserInfo = async (req, res) => {
     try {
-    
+        
+       
       let user = await userInfoModel.findOneAndUpdate({user:req.user}, req.body)
 
+     //if userInfo is not created 
       if(!user){
         let data={...req.body,user:req.user};
         let userInfo=await userInfoModel.create(data);
         await userModel.findByIdAndUpdate(req.user,{userInfo:userInfo._id});
       }
 
-
+       
       let updatedUser=await userModel.findById(req.user)
       .populate('userInfo')
       .select("-password");
@@ -77,16 +81,18 @@ module.exports.updateUserProfile = async (req, res) => {
       //checking new  password  and old password is same or not
       let checkOldPassword = await bcrypt.compare(currPass, user.password);
       let checkNewPassword = await bcrypt.compare(newPass, user.password);
-  
+   
       if (!checkOldPassword || checkNewPassword) {
         return res.send({
           status: "failure",
           message: "Invalid Password",
         });
       }
-  
+      
+      //generating salt to encrypting new password //
       const salt = bcrypt.genSaltSync(10);
       const encryptedpass = await bcrypt.hash(newPass, salt);
+      //saving encrypted password //
       user.password = encryptedpass;
       await user.save();
       return res
@@ -99,7 +105,6 @@ module.exports.updateUserProfile = async (req, res) => {
   };
   
   //to fetch followers
-  
   module.exports.fetchFollowers = async (req, res) => {
     try {
       let followers = await followersModel.find({});

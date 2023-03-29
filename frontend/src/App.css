@@ -2,8 +2,19 @@
 @tailwind components;
 @tailwind utilities;  
 
+/* 
+.react-calendar-heatmap .color-scale-1 { fill: #d6e685; }
+.react-calendar-heatmap .color-scale-2 { fill: #8cc665; }
+.react-calendar-heatmap .color-scale-3 { fill: #44a340; }
+.react-calendar-heatmap .color-scale-4 { fill: #1e6823; }
 
+.cell{
+     
+    background-color: #1e6823;
+} 
+ */
 
+ 
 
 /* Works on Chrome, Edge, and Safari */
 .hideScroll::-webkit-scrollbar {
@@ -42,3 +53,68 @@ input[type=number]::-webkit-outer-spin-button {
     appearance: none;
     margin: 0; 
 }
+
+
+
+
+.prevent-select {
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+  }
+
+
+
+  .blink-bg{
+   
+    animation: blinkingBackground 2s infinite;
+}
+@keyframes blinkingBackground{
+    0%		{ background-color: rgb(27, 27, 27);}
+    50%		{ background-color: rgb(72, 72, 72);}
+    100%    { background-color:rgb(27, 27, 27);}
+    
+}
+
+  
+.blink-img{
+    animation: blinkingImage 2s infinite;
+}
+
+
+
+@keyframes blinkingImage{
+    0%		{ opacity: 0.20;}
+    50%		{ opacity: 0.60;}
+    100%    { opacity: 0.20;}
+    
+}
+
+
+  /* ------cipher map */
+
+
+  
+  .react-calendar-heatmap {
+    margin-bottom: 0;
+  }
+  
+  text {
+    font-size: 0.5rem;
+    fill: #ffffffde;
+  }
+  
+  rect {
+    fill: #262c36;
+  }
+  
+  .line {
+    margin-top: 1.5rem;
+    width: 100%;
+    height: 1px;
+    /* background-color: rgba($color: #fff, $alpha: 0.1);    */
+  }
+  
+  h4 {
+    color: #eee;
+  }

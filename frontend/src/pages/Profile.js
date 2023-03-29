@@ -1,6 +1,8 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import AboutMe from "../components/AboutMe";
+import CipherMap from "../components/CipherMap";
+import ProfessionalInfo from "../components/ProfessionalInfo";
 import ResetPassword from "../components/ResetPassword";
 import UpdateInterests from "../components/UpdateInterests";
 import UpdateProfile from "../components/UpdateProfile";
@@ -11,14 +13,13 @@ import wishListImg from "../images/wishlist.png";
 
 function Profile() {
   const context = useContext(userContext);
-  const { userData, setuserData, followers } = context;
-
-console.log(userData);
+  const { userData, setuserData, followers, setloading } = context;
 
   return (
-    <div className="flex flex-col p-0 relative space-y-1 bg-[rgb(21,24,30)] w-full">
+    <div className="flex flex-col  p-0 mt-0 relative  bg-[rgb(21,24,30)] w-full">
+      {/* user profile  ------- */}
       <div
-        className={`flex items-center top-0 relative bg justify-between h-[16vh] text-[rgb(241,241,241)] 
+        className={`flex items-center w-full overflow-hidden  top-0 relative bg justify-between h-[16vh] mb-1 text-[rgb(241,241,241)] 
        py-2 px-10 from-transparent border-b-[1px] bg-[url(https://res.cloudinary.com/dynjwlpl3/image/upload/v1679995861/background_cdpmle.png)]  border-[rgb(60,66,74)] `}
       >
         <div className="absolute w-full top-o  h-full  left-0 bg-gradient-to-r  from-[#262c36] to-[transparent]"></div>
@@ -44,10 +45,12 @@ console.log(userData);
                 alt=""
               />
             )}
-
-            <UpdateProfile setuserData={setuserData} userData={userData} />
+            <UpdateProfile
+              setuserData={setuserData}
+              userData={userData}
+              setloading={setloading}
+            />
           </div>
-
           <div className="-space-y-1 flex flex-col justify-center">
             <p className="text-lg">Hello,</p>
             <p className="text-2xl font-semibold">
@@ -64,48 +67,28 @@ console.log(userData);
         </Link>
       </div>
       <div className="flex justify-between">
-        {/* //user info -------------------------------------------------------------------- */}
+        {/* user info -------------------------------------------------------------------- */}
         <div className="w-full py-4 hideScroll  h-[74vh] overflow-y-scroll px-4 pl-12 text-[rgb(241,241,241)]">
-          <AboutMe setuserData={setuserData} userData={userData} />
-          <div className="space-y-2 py-4 border-b-[1px] border-[rgb(45,48,53)]">
-            <p className="font-semibold text-lg">CIPHER MAP</p>
-            <div></div>
-          </div>
-          <WebUrls setuserData={setuserData} userData={userData} />
-          <div className="space-y-2 py-4 border-b-[1px] border-[rgb(45,48,53)]">
-            <div className="flex justify-between items-center">
-              <p className="font-semibold text-lg">PROFESSIONAL INFORMATION</p>
-              <button className="bg-[rgb(243,145,46)] px-8 rounded-lg py-[3px]">
-                Edit
-              </button>
-            </div>
-            <div className="flex gap-x-[3%] ">
-              <div className="space-y-2 w-[48.4%]">
-                <p className="font-semibold text-base">Highest education</p>
-                <div className="flex bg-[rgb(38,44,54)] py-2 rounded-lg px-4 justify-between items-center ">
-                  <p className="text-[rgb(201,202,205)] font-semibold">
-                    Higher Secondary
-                  </p>
-                  <i className="fa-solid fa-angle-down text-[rgb(128,129,145)]  "></i>
-                </div>
-              </div>
-              <div className="space-y-2 w-[48.4%]">
-                <p className="font-semibold text-base">
-                  What do you do currently?
-                </p>
-                <div className="flex bg-[rgb(38,44,54)] py-2 rounded-lg px-4 justify-between items-center ">
-                  <p className="text-[rgb(201,202,205)] font-semibold">
-                    College Student
-                  </p>
-                  <i className="fa-solid fa-angle-down text-[rgb(128,129,145)]  "></i>
-                </div>
-              </div>
-            </div>
-          </div>
+          <AboutMe
+            setuserData={setuserData}
+            userData={userData}
+            setloading={setloading}
+          />
+          <CipherMap />
+          <WebUrls
+            setuserData={setuserData}
+            userData={userData}
+            setloading={setloading}
+          />
+          <ProfessionalInfo
+            setuserData={setuserData}
+            userData={userData}
+            setloading={setloading}
+          />
           <div className="space-y-2 py-4 border-b-[1px] border-[rgb(45,48,53)]">
             <div className="flex justify-between items-center">
               <p className="font-semibold text-lg">PASSWORD & SECURITY</p>
-              <ResetPassword />
+              <ResetPassword setloading={setloading} />
             </div>
             <div className="space-y-2 w-full">
               <p className="font-semibold text-base">Password</p>
@@ -123,9 +106,13 @@ console.log(userData);
           <div className="space-y-2 py-4 border-b-[1px] border-[rgb(45,48,53)]">
             <div className="flex justify-between items-center">
               <p className="font-semibold text-lg">INTERESTS</p>
-              <UpdateInterests  setuserData={setuserData} userData={userData}/>
+              <UpdateInterests
+                setuserData={setuserData}
+                userData={userData}
+                setloading={setloading}
+              />
             </div>
-            <div className="flex gap-x-4">
+            <div className="flex flex-wrap gap-y-4 py-1 gap-x-4">
               {userData?.userInfo?.interests?.map((interest) => {
                 return (
                   <div
@@ -139,7 +126,9 @@ console.log(userData);
             </div>
           </div>
         </div>
-        {/* ------------------------------------------------------------------------------------- */}
+
+        {/* right  aside ------- */}
+
         <div className="text-[rgb(238,238,238)] h-[74.3vh] -space-y-1 items-end  flex flex-col">
           <div
             className="bg-[rgb(38,44,54)] flex items-center px-2 border-l-[1px] border-[rgb(60,66,74)] border-b-[1px] rounded-l-md

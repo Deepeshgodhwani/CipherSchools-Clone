@@ -42,24 +42,22 @@ function Navbar() {
             4
           </p>
         </div>
-        {userData?.email ? (userData.avtar=== process.env.REACT_APP_DEFAULT_USERAVTAR ?  
-          <Link to="/">
-          <div
-          className="w-7 ml-1 cursor-pointer h-7 bg-[rgb(72,61,53)] flex justify-center items-center rounded-full"
-        >
-        <img
-          alt=""
-          className="w-3 "
-          src={userData.avtar}
-        ></img>
-      </div>
-        </Link> : <Link to="/">
-          <img
-            alt=""
-            className="rounded-full h-6 w-6"
-            src={userData.avtar}
-          ></img>
-        </Link>
+        {userData?.email ? (
+          userData.avtar === process.env.REACT_APP_DEFAULT_USERAVTAR ? (
+            <Link to="/">
+              <div className="w-7 ml-1 cursor-pointer h-7 bg-[rgb(72,61,53)] flex justify-center items-center rounded-full">
+                <img alt="" className="w-3 " src={userData.avtar}></img>
+              </div>
+            </Link>
+          ) : (
+            <Link to="/">
+              <img
+                alt=""
+                className="rounded-full h-6 w-6"
+                src={userData.avtar}
+              ></img>
+            </Link>
+          )
         ) : (
           <Login />
         )}

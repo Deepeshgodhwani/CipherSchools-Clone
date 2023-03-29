@@ -4,6 +4,7 @@ import userContext from "./userContext";
 const UserState = (props) => {
     const [userData, setuserData] = useState({})
     const [followers, setfollowers] = useState([]);
+    const [loading, setloading] = useState(true);
 
 
     useEffect(() => {    
@@ -40,7 +41,7 @@ const UserState = (props) => {
     
     
   return (
-    <userContext.Provider value={{setuserData,userData,followers}}>
+    <userContext.Provider value={{setuserData,userData,followers, loading,setloading}}>
       {props.children}
     </userContext.Provider>
   );
