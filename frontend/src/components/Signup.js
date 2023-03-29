@@ -35,9 +35,21 @@ function Signup(props) {
       return;
     }
 
+    //validator for wrong email format //
     if (!isValidEmail(userDetails.email)) {
       toast({
         description: "Invalid Email Address",
+        status: "warning",
+        duration: 1000,
+        isClosable: true,
+      });
+      return;
+    }
+
+    //validator for short password
+    if (userDetails?.password?.length < 6) {
+      toast({
+        description: "Password is too short",
         status: "warning",
         duration: 1000,
         isClosable: true,

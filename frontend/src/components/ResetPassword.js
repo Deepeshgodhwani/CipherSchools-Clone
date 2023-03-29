@@ -56,6 +56,17 @@ function ResetPassword(props) {
       return;
     }
 
+    //validator for short password
+    if (password?.newPass?.length < 6) {
+      toast({
+        description: "Password is too short",
+        status: "warning",
+        duration: 1000,
+        isClosable: true,
+      });
+      return;
+    }
+
     try {
       setloading(true);
       let token = localStorage.getItem("token");
@@ -81,7 +92,7 @@ function ResetPassword(props) {
           duration: 1000,
           isClosable: true,
         });
-        
+
         setloading(false);
       } else {
         //if Old Current password is not correct
@@ -98,7 +109,6 @@ function ResetPassword(props) {
         });
       }
     } catch (error) {
-    
       setpassword({
         currentPass: "",
         newPass: "",
