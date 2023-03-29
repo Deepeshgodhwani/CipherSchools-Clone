@@ -62,9 +62,9 @@ function ProfessionalInfo(props) {
           setuserData(result.data);
 
           toast({
-            description: "Updated Personal Info ",
+            description: "Professional info updated successfully",
             status: "success",
-            duration: 2000,
+            duration: 1000,
             isClosable: true,
           });
         }
@@ -73,7 +73,7 @@ function ProfessionalInfo(props) {
         toast({
           description: "Internal server error",
           status: "warning",
-          duration: 2000,
+          duration: 1000,
           isClosable: true,
         });
         setloading(false);

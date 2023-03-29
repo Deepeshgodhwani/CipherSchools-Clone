@@ -24,8 +24,8 @@ function UpdateInterests(props) {
     { isSelected: false, interest: "Others" },
   ]);
 
-  const setUserInterets = () => {
-    if (userData?.userInfo?.interests)
+  const initialiseInterets = () => {
+    if (userData?.userInfo?.interests) {
       setinterests(
         interests.map((element) => {
           let index = userData?.userInfo?.interests.findIndex(
@@ -40,18 +40,33 @@ function UpdateInterests(props) {
           }
         })
       );
-    setuserInterests(userData?.userInfo?.interests);
+
+      setuserInterests(userData?.userInfo?.interests);
+    } else {
+      setinterests([
+        { isSelected: false, interest: "App Development" },
+        { isSelected: false, interest: "Web Development" },
+        { isSelected: false, interest: "Game Development" },
+        { isSelected: false, interest: "Data Structures" },
+        { isSelected: false, interest: "Programming" },
+        { isSelected: false, interest: "Machine Learning" },
+        { isSelected: false, interest: "Data Science" },
+        { isSelected: false, interest: "Others" },
+      ]);
+      setuserInterests([]);
+    }
   };
 
   useEffect(() => {
-    setUserInterets();
+    initialiseInterets();
   }, [userData]);
 
   //to add new user interests in interest array
   const addInterests = (interest) => {
     let index = userInterests?.findIndex((elem) => elem === interest);
     //if interest is not in data array then push it
-    if (index === -1 || !index) {
+
+    if (index === -1) {
       setuserInterests([...userInterests, interest]);
       setinterests(
         interests.map((element) => {
@@ -110,25 +125,25 @@ function UpdateInterests(props) {
         toast({
           description: "Interests updated successfully",
           status: "success",
-          duration: 2000,
+          duration: 1000,
           isClosable: true,
         });
-        setloading(false);
       } else {
         //if any error happens in updating
         toast({
           description: result.message,
           status: "warning",
-          duration: 2000,
+          duration: 1000,
           isClosable: true,
         });
       }
+      setloading(false);
     } catch (error) {
       console.log(error);
       toast({
         description: "Internal server error",
         status: "warning",
-        duration: 2000,
+        duration: 1000,
         isClosable: true,
       });
       closeTab();
@@ -138,7 +153,7 @@ function UpdateInterests(props) {
 
   //to close the tab
   const closeTab = () => {
-    setUserInterets();
+    initialiseInterets();
     onClose();
   };
 

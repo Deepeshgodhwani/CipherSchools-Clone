@@ -53,8 +53,9 @@ function WebUrls(props) {
       setisEdit(true);
       if (weburls === userData?.userInfo?.webUrls) return;
 
+      setloading(true);
+
       try {
-        setloading(true);
         let token = localStorage.getItem("token");
         const response = await fetch(`${URL}/api/userUpdate/updateUserInfo`, {
           method: "PUT",
@@ -67,16 +68,16 @@ function WebUrls(props) {
         });
 
         let result = await response.json();
-        
+
         if (result.status === "success") {
           //saving upated user to local storage
           localStorage.setItem("user", JSON.stringify(result.data));
           //updating global user data state
           setuserData(result.data);
           toast({
-            description: "Updated Web Urls ",
+            description: "Web Urls updated successfully ",
             status: "success",
-            duration: 2000,
+            duration: 1000,
             isClosable: true,
           });
         }
@@ -85,7 +86,7 @@ function WebUrls(props) {
         toast({
           description: "Internal server error",
           status: "warning",
-          duration: 2000,
+          duration: 1000,
           isClosable: true,
         });
         setloading(false);

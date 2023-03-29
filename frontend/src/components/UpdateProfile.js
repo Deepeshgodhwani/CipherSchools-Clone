@@ -59,7 +59,6 @@ function UpdateProfile(props) {
         let picture = pic.url.toString();
         setcurrentData({ ...currentData, avtar: picture });
         e.target.value = null;
-        setloading(false);
       } else {
         toast({
           description: "picture format should be jpeg or png",
@@ -68,6 +67,8 @@ function UpdateProfile(props) {
           isClosable: true,
         });
       }
+
+      setloading(false);
     } catch (error) {
       toast({
         description: "Internal server error",
@@ -116,24 +117,23 @@ function UpdateProfile(props) {
       });
 
       let result = await response.json();
-      
+
       if (result.status === "success") {
         //saving upated user to local storage
         localStorage.setItem("user", JSON.stringify(result.data));
         toast({
           description: "Profile updated successfully",
           status: "success",
-          duration: 2000,
+          duration: 1000,
           isClosable: true,
         });
         //updating global user data state
         setuserData(result.data);
-        
       } else {
         toast({
           description: result.message,
           status: "warning",
-          duration: 2000,
+          duration: 1000,
           isClosable: true,
         });
         UpdateCurrentData();
@@ -144,7 +144,7 @@ function UpdateProfile(props) {
       toast({
         description: "Internal server error",
         status: "warning",
-        duration: 2000,
+        duration: 1000,
         isClosable: true,
       });
       closeTab();

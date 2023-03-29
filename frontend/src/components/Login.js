@@ -57,16 +57,16 @@ function Login() {
         toast({
           description: "Signin successfully",
           status: "success",
-          duration: 2000,
+          duration: 1000,
           isClosable: true,
         });
-        
+
         setloading(false);
       } else {
         toast({
           description: result.message,
           status: "warning",
-          duration: 2000,
+          duration: 1000,
           isClosable: true,
         });
         setuserCredentials({ email: "", password: "" });
@@ -78,7 +78,7 @@ function Login() {
       toast({
         description: "Internal server error",
         status: "warning",
-        duration: 2000,
+        duration: 1000,
         isClosable: true,
       });
       setloading(false);
@@ -93,13 +93,10 @@ function Login() {
     setisSignin(value);
   };
 
-  
-  const switchTab =()=>{
+  const switchTab = () => {
     toggleSigninView(false);
     setuserCredentials({ email: "", password: "" });
-    
-  }
-
+  };
 
   return (
     <div>

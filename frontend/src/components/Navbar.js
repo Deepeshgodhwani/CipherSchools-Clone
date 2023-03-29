@@ -67,7 +67,7 @@ function Navbar() {
             src="https://www.cipherschools.com/static/media/WatchPoints.1caa87d88b88c0d4b4ee24fdd5b1db3f.svg"
             alt=""
           />
-          <p className="text-[rgb(243,145,46)] text-sm font-bold">10</p>
+          <p className="text-[rgb(243,145,46)] text-sm font-bold">50</p>
         </div>
       </div>
     </div>

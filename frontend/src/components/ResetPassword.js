@@ -40,7 +40,7 @@ function ResetPassword(props) {
       toast({
         description: "Current password and new password should not be same",
         status: "warning",
-        duration: 2000,
+        duration: 1000,
         isClosable: true,
       });
       return;
@@ -50,7 +50,7 @@ function ResetPassword(props) {
       toast({
         description: "New password and Confirm password should be same",
         status: "warning",
-        duration: 2000,
+        duration: 1000,
         isClosable: true,
       });
       return;
@@ -76,9 +76,9 @@ function ResetPassword(props) {
       if (result.status === "success") {
         closeTab();
         toast({
-          description: "Profile updated successfully",
+          description: "Password changed successfully",
           status: "success",
-          duration: 2000,
+          duration: 1000,
           isClosable: true,
         });
         
@@ -88,7 +88,7 @@ function ResetPassword(props) {
         toast({
           description: result.message,
           status: "warning",
-          duration: 2000,
+          duration: 1000,
           isClosable: true,
         });
         setpassword({
@@ -98,7 +98,7 @@ function ResetPassword(props) {
         });
       }
     } catch (error) {
-      console.log(error);
+    
       setpassword({
         currentPass: "",
         newPass: "",

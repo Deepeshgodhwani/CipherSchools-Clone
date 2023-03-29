@@ -10,10 +10,10 @@ function AboutMe(props) {
 
   useEffect(() => {
     const updateBio = () => {
-      if(userData?.userInfo?.about){
+      if (userData?.userInfo?.about) {
         setbio(userData?.userInfo?.about);
-      }else{
-         setbio("");
+      } else {
+        setbio("");
       }
     };
     updateBio();
@@ -31,7 +31,7 @@ function AboutMe(props) {
       setisEdit(false);
     } else {
       //if about me is empty or same as it was then return
-      if(bio === userData?.userInfo?.about) {
+      if (!bio || bio === userData?.userInfo?.about) {
         textArea.disabled = true;
         button.innerText = "Edit";
         setisEdit(true);
@@ -62,9 +62,9 @@ function AboutMe(props) {
           button.innerText = "Edit";
           setisEdit(true);
           toast({
-            description: "Updated About me ",
+            description: "About me updated succcessfully",
             status: "success",
-            duration: 2000,
+            duration: 1000,
             isClosable: true,
           });
         }
@@ -73,7 +73,7 @@ function AboutMe(props) {
         toast({
           description: "Internal server error",
           status: "warning",
-          duration: 2000,
+          duration: 1000,
           isClosable: true,
         });
         setloading(false);

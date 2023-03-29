@@ -19,11 +19,9 @@ function Signup(props) {
   const context = useContext(userContext);
   const { setuserData, setloading } = context;
 
-
   function isValidEmail(email) {
     return /\S+@\S+\.\S+/.test(email);
   }
-
 
   const createUser = async (e) => {
     e.preventDefault();
@@ -37,13 +35,14 @@ function Signup(props) {
       return;
     }
 
-    if(!isValidEmail(userDetails.email)){
+    if (!isValidEmail(userDetails.email)) {
       toast({
         description: "Invalid Email Address",
         status: "warning",
-        duration: 2000,
+        duration: 1000,
         isClosable: true,
       });
+      return;
     }
 
     try {
@@ -68,7 +67,7 @@ function Signup(props) {
         toast({
           description: "Signup successfully",
           status: "success",
-          duration: 2000,
+          duration: 1000,
           isClosable: true,
         });
 
@@ -80,7 +79,7 @@ function Signup(props) {
           password: "",
           contactNo: "",
         });
-       
+
         setloading(false);
       } else {
         //if user is already exists and still try to signUp //
@@ -94,7 +93,7 @@ function Signup(props) {
         toast({
           description: "User is already exists",
           status: "warning",
-          duration: 2000,
+          duration: 1000,
           isClosable: true,
         });
         setloading(false);
@@ -110,7 +109,7 @@ function Signup(props) {
       toast({
         description: "Internal server error",
         status: "warning",
-        duration: 2000,
+        duration: 1000,
         isClosable: true,
       });
       setloading(false);
@@ -122,8 +121,7 @@ function Signup(props) {
     setuserDetails({ ...userDetails, [e.target.name]: e.target.value });
   };
 
-
-  const switchTab =()=>{
+  const switchTab = () => {
     toggleSigninView(true);
     setuserDetails({
       firstName: "",
@@ -132,7 +130,7 @@ function Signup(props) {
       password: "",
       contactNo: "",
     });
-  }
+  };
 
   return (
     !isSignin && (
