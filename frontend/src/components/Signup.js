@@ -44,6 +44,7 @@ function Signup(props) {
 
       let result = await response.json();
       if (result.status === "success") {
+        onClose();
         //saving upated user to local storage
         localStorage.setItem("token", result.data.authToken);
         //updating global user data state
@@ -64,7 +65,7 @@ function Signup(props) {
           password: "",
           contactNo: "",
         });
-        onClose();
+       
         setloading(false);
       } else {
         //if user is already exists and still try to signUp //

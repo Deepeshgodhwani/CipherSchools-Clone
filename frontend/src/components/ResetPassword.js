@@ -73,15 +73,16 @@ function ResetPassword(props) {
       });
 
       let result = await response.json();
-      setloading(false);
       if (result.status === "success") {
+        closeTab();
         toast({
           description: "Profile updated successfully",
           status: "success",
           duration: 2000,
           isClosable: true,
         });
-        closeTab();
+        
+        setloading(false);
       } else {
         //if Old Current password is not correct
         toast({

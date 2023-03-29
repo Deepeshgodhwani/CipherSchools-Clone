@@ -55,7 +55,6 @@ function ProfessionalInfo(props) {
         });
 
         let result = await response.json();
-        setloading(false);
         if (result.status === "success") {
           //saving upated user to local storage
           localStorage.setItem("user", JSON.stringify(result.data));
@@ -69,6 +68,7 @@ function ProfessionalInfo(props) {
             isClosable: true,
           });
         }
+        setloading(false);
       } catch (err) {
         toast({
           description: "Internal server error",

@@ -49,6 +49,7 @@ function Login() {
 
       let result = await response.json();
       if (result.status === "success") {
+        onClose();
         localStorage.setItem("token", result.data.authToken);
         localStorage.setItem("user", JSON.stringify(result.data.user));
         setuserData(result.data.user);
@@ -59,7 +60,7 @@ function Login() {
           duration: 2000,
           isClosable: true,
         });
-        onClose();
+        
         setloading(false);
       } else {
         toast({

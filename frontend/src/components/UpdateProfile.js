@@ -116,7 +116,7 @@ function UpdateProfile(props) {
       });
 
       let result = await response.json();
-      setloading(false);
+      
       if (result.status === "success") {
         //saving upated user to local storage
         localStorage.setItem("user", JSON.stringify(result.data));
@@ -128,6 +128,7 @@ function UpdateProfile(props) {
         });
         //updating global user data state
         setuserData(result.data);
+        
       } else {
         toast({
           description: result.message,
@@ -137,6 +138,8 @@ function UpdateProfile(props) {
         });
         UpdateCurrentData();
       }
+
+      setloading(false);
     } catch (error) {
       toast({
         description: "Internal server error",
