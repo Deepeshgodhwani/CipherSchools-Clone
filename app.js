@@ -30,6 +30,8 @@ app.get('/',(req,res)=>{
   res.sendFile(path.resolve(__dirname1,"frontend","build","index.html"))
 });
 
+// ------------------------------------------------------
+
 
 app.all("*", (req, res) => {
   res.status(404).send("404 NOT FOUND");
@@ -47,3 +49,4 @@ app.listen(PORT, (err) => {
 
   console.log("SERVER IS RUNNING SUCCESSFULLY ON PORT : " + PORT);
 });
+ 
